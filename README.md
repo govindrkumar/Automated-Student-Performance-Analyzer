@@ -7,6 +7,7 @@ A simple Flask web app that analyzes student exam data (CSV or XLSX), calculates
 - Framework: Flask
 - Notable libraries: pandas, numpy, matplotlib, openpyxl
 - Deployable with: gunicorn (requirements.txt included)
+- try this project : https://automated-student-performance-analyzer.onrender.com
 
 ## Features
 - Upload student data (.csv or .xlsx) via web form
@@ -120,8 +121,3 @@ README.md              # (this is where this content goes)
 
 ## License
 - See LICENSE file in the repository.
-
-If you'd like, I can:
-- Paste this into a README.md in the repo for you,
-- Add an example sample CSV file under data/ or uploads/ to make testing easier,
-- Or add basic input validation and a small test suite for the analysis functions.
