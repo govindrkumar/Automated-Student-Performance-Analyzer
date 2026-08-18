@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+
+    <head>
+        <title>Student Result Analyzer</title>
+        <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='images/logo.png.jpeg') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+    </head>
+    <body>
+        <div id="heading">
+            <h1>Student Result Analyzer</h1>
+            <p>Welcome to the Student Result Analyzer!</p>
+        </div>
+        <h2>Performance in Each Subject</h2>
+
+        <style>
+            h2 {
+                display : flex;
+                justify-content: center;
+                align-items: center;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+            }
+        </style>
+
+        
+        <div class="physics_performance">
+
+
+                {% for graph in graphs %}
+                    <img src="{{ url_for('static', filename=graph) }}">
+                {% endfor %}
+        </div>
+
+
+    </body>
+</html>

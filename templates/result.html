@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Data</title>
+        <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='images/logo.png.jpeg') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+        <div id="heading">
+            <h1>Student Result Analyzer</h1>
+            <p>Welcome to the Student Result Analyzer!</p>
+        </div>
+        
+
+    <h2>Uploaded Student Data</h2>
+    <div class = 'table_Data'>
+            {{ table | safe }}
+    </div>
+
+
+
+    <br>
+
+    <a href="{{ url_for('analyse') }}">
+        Analyse Results
+        <img src="https://www.nios.ac.in/media/93420/newgood.gif" alt="analysis">
+
+    </a>
+    <br>
+
+    <a href="{{ url_for('topper_list')}}">
+        Subject-Wise Topper List
+        <img src="https://www.nios.ac.in/media/93420/newgood.gif" alt="topper_list">
+
+    </a>
+    <br>
+
+    <a href="{{ url_for('graphical_representation')}}">
+        Graphical Representation of Performance 
+        <img src="https://www.nios.ac.in/media/93420/newgood.gif" alt="performance">
+    </a>
+
+    <style>
+        h2{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: cursive;
+        }
+
+        a{
+            display:flex;
+            justify-content: center;
+
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        .table_Data{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+
+
+</body>
+</html>

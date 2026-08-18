@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+
+    <head>
+        <title>Student Result Analyzer</title>
+        <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='images/logo.png.jpeg') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+    </head>
+    <body>
+        <div id="heading">
+            <h1>Student Result Analyzer</h1>
+            <p>Welcome to the Student Result Analyzer!</p>
+        </div>
+        
+
+        <!--This is my start of comments-->
+
+<div class="container">
+            <div class="form-container">
+                            <form action="/submit" method="post">
+                <label for="student_name">Student Name</label>
+                <input type="text" id="student_name" name="student_name" placeholder="John Doe"><br>
+
+                <label for="student_id">Student ID</label>
+                <input type='text' id="student_id" autocomplete="off" name="student_id" placeholder="123456"><br>
+
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select><br>
+
+                <label for="birthdate">Date of Birth</label>
+                <input type="date" id="birthdate" name="birthdate"><br>
+                <br>
+
+                <input type="submit" value="Submit">
+            </form>
+            </div>
+
+
+
+        </div>
+
+
+            <div class="normality">
+                <a href="{{ url_for('dashboard') }}"><h2>Analyse Student Results</h2></a>
+            </div>
+    </body>
+</html>
