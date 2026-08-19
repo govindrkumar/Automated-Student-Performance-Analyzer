@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+
+    <head>
+        <title>Student Result Analyzer</title>
+        <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='images/logo.png.jpeg') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+    </head>
+    <body>
+        <div id="heading">
+            <h1>Student Result Analyzer</h1>
+            <p>Welcome to the Student Result Analyzer!</p>
+        </div>
+        
+
+        <!--This is my start of comments-->
+        <div class="subject_selection">
+            <h2>Select Your Subjects</h2>
+
+            <!-- Now Form Creation -->
+             <h3>Select your options</h3>
+             <form action="/subject_selection" method="post">
+                <section id="language">
+                    <h2>Language</h2> <br>
+                    {% for item in my_list %}
+                    <input type="checkbox" id="item_{{ loop.index }}" name="selected_items" value="{{ item }}">
+                    <label for="item_{{ loop.index }}">{{ item }}</label> <br>
+                    {% endfor %}
+                </section>
+
+                <section id="stem">
+                    <h2>STEM</h2><br>
+                    {% for item in my_list2 %}
+                    <input type="checkbox" id="item_{{ loop.index }}" name="selected_items" value="{{ item }}">
+                    <label for="item_{{ loop.index }}">{{ item }}</label> <br>
+                    {% endfor %}
+                </section>
+
+                <section id="social_science">
+                    <h2>Social Science</h2>
+                    <br>
+                    {% for item in my_list3 %}
+                    <input type="checkbox" id="item_{{ loop.index }}" name="selected_items" value="{{ item }}">
+                    <label for="item_{{ loop.index }}">{{ item }}</label> <br>
+                    {% endfor %}
+                </section>
+
+                <section id="computer">
+                    <h2>Computer</h2>
+                    <br>
+                    {% for item in my_list4 %}
+                    <input type="checkbox" id="item_{{ loop.index }}" name="selected_items" value="{{ item }}">
+                    <label for="item_{{ loop.index }}">{{ item }}</label> <br>
+                    {% endfor %}
+                </section>
+
+                <section id="commerce">
+                    <h2>Commerce</h2>
+                    <br>
+                    {% for item in my_list5 %}
+                    <input type="checkbox" id="item_{{ loop.index }}" name="selected_items" value="{{ item }}">
+                    <label for="item_{{ loop.index }}">{{ item }}</label> <br>
+                    {% endfor %}
+                </section>
+
+                <section id="biology">
+                    <h2>Biology</h2>
+                    <br>
+                    {% for item in my_list6 %}
+                    <input type="checkbox" id="item_{{ loop.index }}" name="selected_items" value="{{ item }}">
+                    <label for="item_{{ loop.index }}">{{ item }}</label> <br>
+                    {% endfor %}
+                </section>
+
+                <section id="law">
+                    <h2>Law</h2>
+                    <br>
+                    {% for item in my_list7 %}
+                    <input type="checkbox" id="item_{{ loop.index }}" name="selected_items" value="{{ item }}">
+                    <label for="item_{{ loop.index }}">{{ item }}</label> <br>
+                    {% endfor %}
+                </section>
+
+                <section id="engineering">
+                    <h2>Engineering</h2>
+                    <br>
+                    {% for item in my_list8 %}
+                    <input type="checkbox" id="item_{{ loop.index }}" name="selected_items" value="{{ item }}">
+                    <label for="item_{{ loop.index }}">{{ item }}</label> <br>
+                    {% endfor %}
+                </section>
+
+                <section id="painting">
+                    <h2>Painting</h2>
+                    {% for item in my_list9 %}
+                    <input type="checkbox" id="item_{{ loop.index }}" name="selected_items" value="{{ item }}">
+                    <label for="item_{{ loop.index }}">{{ item }}</label> <br>
+                    {% endfor %}
+                </section>
+
+                <button type="submit">Submit</button>
+                </form>           
+        </div>
+
+
+
+    </body>
+</html>

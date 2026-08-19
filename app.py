@@ -279,6 +279,199 @@ def graphical_representation():
     return render_template('performance_dashboard.html', graphs = graphs)
 
 
+# ---------------------------------------------------
+# BUILIDING READER
+# ---------------------------------------------------
+
+@app.route('/result_calc',methods = ['POST'])
+def result_calc():
+    student_no = request.form['student_no']
+    subject_no = request.form['subject_no']
+
+    print(student_no)
+    print(subject_no)
+
+    subjects = [
+    "English",
+    "Hindi",
+    "Sanskrit",
+    "Urdu",
+    "Bengali",
+    "Tamil",
+    "Telugu",
+    "Marathi",
+    "Gujarati",
+    "Kannada",
+    "Malayalam",
+    "Punjabi",
+    "Assamese",
+    "Odia",
+    "French",
+    "German",
+    "Spanish",
+    "Japanese",
+    "Chinese",
+    "Arabic",]
+
+    subjects2 = ["Mathematics",
+    "Applied Mathematics",
+    "Statistics",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Environmental Science",
+    "Earth Science",
+    "Geology",
+    "Astronomy",
+    "Astrophysics",
+    "Geography",
+    "Geology and Mineralogy",
+    "Oceanography",
+    "Meteorology",]
+
+    subjects3 = ["History",
+    "Political Science",
+    "Civics",
+    "Economics",
+    "Sociology",
+    "Psychology",
+    "Philosophy",
+    "Anthropology",
+    "Archaeology",
+    "Public Administration",
+    "International Relations",
+    "Human Geography",
+    "Social Work",
+    "Gender Studies",
+    "Cultural Studies",]
+
+    subjects4 = ["Computer Science",
+    "Informatics Practices",
+    "Information Technology",
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Data Science",
+    "Data Analytics",
+    "Cyber Security",
+    "Computer Applications",
+    "Software Engineering",
+    "Web Development",
+    "Database Management",
+    "Computer Networks",
+    "Operating Systems",
+    "Computer Architecture",
+    "Programming",
+    "Python Programming",
+    "Java Programming",
+    "C Programming",
+    "C++ Programming",
+    "Algorithms",
+    "Data Structures",
+    "Cloud Computing",
+    "Internet of Things",
+    "Blockchain Technology",
+    "Robotics",
+    "Human-Computer Interaction",]
+
+
+    subjects5 = ["Accountancy",
+        "Business Studies",
+        "Commerce",
+        "Financial Management",
+        "Marketing",
+        "Business Economics",
+        "Entrepreneurship",
+        "Management",
+        "Operations Management",
+        "Human Resource Management",
+        "Organizational Behaviour",
+        "Financial Accounting",
+        "Cost Accounting",
+        "Taxation",
+        "Auditing",
+        "Banking",
+        "Insurance",
+        "Business Law",
+        "Corporate Finance",]
+
+    
+    subjects6 = ["Biochemistry",
+        "Microbiology",
+        "Biotechnology",
+        "Genetics",
+        "Molecular Biology",
+        "Cell Biology",
+        "Ecology",
+        "Zoology",
+        "Botany",
+        "Marine Biology",
+        "Neuroscience",
+        "Immunology",
+        "Bioinformatics",
+        "Biomedical Science",
+        "Food Science",
+        "Forensic Science",]
+
+    subjects7 = ["Political Theory",
+        "Constitutional Studies",
+        "Legal Studies",
+        "Criminal Law",
+        "Contract Law",
+        "Civil Law",
+        "Corporate Law",
+        "International Law",
+        "Human Rights",
+        "Environmental Law",]
+
+    subjects8 = ["Mechanical Engineering",
+        "Civil Engineering",
+        "Electrical Engineering",
+        "Electronics Engineering",
+        "Computer Engineering",
+        "Chemical Engineering",
+        "Aerospace Engineering",
+        "Biomedical Engineering",
+        "Environmental Engineering",
+        "Industrial Engineering",]
+
+    subjects9 = ["Fine Arts",
+        "Visual Arts",
+        "Painting",
+        "Drawing",
+        "Sculpture",
+        "Music",
+        "Hindustani Classical Music",
+        "Carnatic Music",
+        "Western Music",
+        "Dance",
+        "Drama",
+        "Theatre",
+        "Film Studies",
+        "Photography",
+        "Graphic Design",
+        "Fashion Design",
+        "Architecture",
+        "Interior Design",
+        "Physical Education",
+        "Health Education"]
+
+    return render_template('subject_selection.html',
+                            my_list = subjects,
+                            my_list2 = subjects2,
+                            my_list3 = subjects3,
+                            my_list4 = subjects4,
+                            my_list5 = subjects5,
+                            my_list6 = subjects6,
+                            my_list7 = subjects7,
+                            my_list8 = subjects8,
+                            my_list9 = subjects9
+                            )
+
+@app.route('/subject_selection', methods = ['POST'])
+def subject_selection():
+    selected = request.form.getlist('selected_items')
+    return f"Selected items: {selected}"
+
 
 
 # --------------------------------------------------
