@@ -13,6 +13,7 @@
             <h1>Student Result Analyzer</h1>
             <p>Welcome to the Student Result Analyzer!</p>
         </div>
+        <!-- Each image is one subject's server-generated bar chart. -->
         <h2>Performance in Each Subject</h2>
 
         <style>
@@ -26,6 +27,7 @@
         </style>
 
         
+        <!-- Loop over all chart paths sent by the Flask route. -->
         <div class="physics_performance">
                 {% for graph in graphs %}
                     <img src="{{ url_for('static', filename=graph) }}">

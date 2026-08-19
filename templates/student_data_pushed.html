@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+
+    <head>
+        <title>Student Result Analyzer</title>
+        <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='images/logo.png.jpeg') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+    </head>
+    <body>
+        <div id="heading">
+            <h1>Student Result Analyzer</h1>
+            <p>Welcome to the Student Result Analyzer!</p>
+        </div>
+
+        <!-- Submit all manually entered student marks together. -->
+        <form action="/collect_data" method="POST">
+
+    <table>
+
+        <!-- Header row: fixed student fields plus selected subjects. -->
+        <tr>
+            <th>Student ID</th>
+            <th>Student Name</th>
+
+            {% for subject in subjects %}
+                <th>{{ subject }}</th>
+            {% endfor %}
+        </tr>
+
+        <!-- Create one editable row for each requested student. -->
+        {% for i in range(student_no) %}
+
+        <tr>
+
+<!-- Student ID -->
+<td>
+    <input type="text" name="student_id_{{ i }}">
+</td>
+
+<!-- Student Name -->
+<td>
+    <input type="text" name="name_{{ i }}">
+</td>
+            {% for subject in subjects %}
+            <td>
+                <input
+                    type="number"
+                    name="{{ subject }}_{{ i }}"
+                >
+            </td>
+            {% endfor %}
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <button type="submit">Analyze Results</button>
+
+</form>
+
+
+
+    </body>
+</html>

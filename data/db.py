@@ -1,9 +1,11 @@
+# Load database settings from the local environment file.
 from dotenv import load_dotenv
 import os
 import pymysql
 
 load_dotenv()
 
+# Open a short-lived connection to verify the MySQL configuration.
 connection = pymysql.connect(
     host=os.getenv("MYSQL_HOST"),
     port=int(os.getenv("MYSQL_PORT")),
@@ -13,6 +15,7 @@ connection = pymysql.connect(
     ssl={"ssl": {}}
 )
 
+# Run a simple query so the connection can be checked.
 cursor = connection.cursor()
 
 cursor.execute("SELECT VERSION()")
@@ -22,5 +25,6 @@ version = cursor.fetchone()
 print("MySQL connected!")
 print("MySQL version:", version[0])
 
+# Always close both database resources after the check.
 cursor.close()
 connection.close()

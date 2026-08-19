@@ -1,5 +1,5 @@
 # Import required libraries
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
@@ -283,14 +283,22 @@ def graphical_representation():
 # BUILIDING READER
 # ---------------------------------------------------
 
+#declaring for global
+student_no = 0
+subject_no = 0
+
 @app.route('/result_calc',methods = ['POST'])
 def result_calc():
-    student_no = request.form['student_no']
-    subject_no = request.form['subject_no']
+    # Save the form counts for the next subject and student screens.
+    global student_no
+    global subject_no
+    student_no = int(request.form['student_no'])
+    subject_no = int(request.form['subject_no'])
 
     print(student_no)
     print(subject_no)
 
+    # Subject options are grouped so the selection page stays organised.
     subjects = [
     "English",
     "Hindi",
@@ -468,13 +476,67 @@ def result_calc():
                             )
 
 
+
+# Temporary in-memory data used by the manual-entry workflow.
+my_dict = {}
+selected_subject = []
 @app.route('/subject_selection', methods = ['POST'])
 def subject_selection():
-    selected = request.form.getlist('selected_items')
-    my_dict = {'Name': []}
-    for key in selected: #added keys now
+    global my_dict
+    global selected_subject
+    # Keep only the subjects selected by the user.
+    selected_subject = request.form.getlist('selected_items')
+    my_dict = {'Student Name': []}
+    for key in selected_subject: #added keys now
         my_dict[key] = []
-    return my_dict
+    return redirect('/student_data')
+
+
+@app.route('/student_data')
+def student_data():
+    # Build an empty input table for every student and subject.
+    return render_template(
+        'student_data_pushed.html',
+        student_no=student_no,
+        subjects= selected_subject
+    )
+
+@app.route('/collect_data', methods=['POST'])
+def collect_data():
+
+    global my_dict
+
+    # Read each table cell and place it into a column-based dictionary.
+    my_dict['Student Name'] = []
+
+    for i in range(student_no):
+
+        my_dict['Student Name'].append(
+            request.form[f'name_{i}']
+        )
+
+        for subject in selected_subject:
+
+            my_dict[subject].append(
+                request.form[f'{subject}_{i}']
+            )
+
+    print(my_dict)
+
+    return redirect('/results')
+
+@app.route('/results')
+def results():
+    # Convert manual entries to the same CSV format used by file uploads.
+    print(my_dict)
+    df = pd.DataFrame(my_dict)
+
+
+    UPLOAD_FOLDER = "uploads"
+    filepath = os.path.join(UPLOAD_FOLDER, "uploaded_data.csv")
+    df.to_csv(filepath, index = False)
+    table = df.to_html()
+    return render_template('result.html',table = table)
 
 
 

@@ -2,6 +2,7 @@
 <html>
 
 
+    <!-- Page metadata and shared styles. -->
     <head>
         <title>Student Result Analyzer</title>
         <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='images/logo.png.jpeg') }}">
@@ -9,6 +10,7 @@
 
     </head>
     <body>
+        <!-- Upload page heading. -->
         <div id="heading">
             <h1>Student Result Analyzer</h1>
             <p>Welcome to the Student Result Analyzer!</p>
@@ -16,6 +18,7 @@
 
         <div class="container">
             <div class="form-container">
+                <!-- Send the selected CSV/XLSX file to Flask. -->
                 <form action="/submit" method="post" enctype="multipart/form-data">
 
 

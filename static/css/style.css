@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
 
+/* Shared title block used across the templates. */
 #heading {
     display: flex;
     align-items: center;
@@ -19,10 +20,12 @@
     margin-top: 0;
 }
 
+/* Basic page background. */
 body {
     background-color: rgb(240, 240, 240);
 }
 
+/* Centered panels used by the home and upload forms. */
 .container {
     width: 90%;
     max-width: 360px;
@@ -36,6 +39,7 @@ body {
 }
 
 
+/* Stack form controls vertically for easier data entry. */
 .form-container form {
     display: flex;
     flex-direction: column;
@@ -84,6 +88,7 @@ body {
     background-color: #555;
 }
 
+/* Secondary link back to the spreadsheet workflow. */
 .normality {
     display: flex;
     justify-content: center;
@@ -108,6 +113,7 @@ body {
     transform: scale(1.05);
 }
 
+/* Center the topper table and its heading. */
 .table_of_toppers{
     display: flex;
     justify-content: center;
@@ -115,6 +121,7 @@ body {
     flex-direction: column;
 }
 
+/* Responsive grid for generated performance charts. */
 .physics_performance {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -141,12 +148,13 @@ body {
 }
 
 
+/* Subject picker layout and category cards. */
 .subject_selection {
     width: 95%;
     margin: 30px auto;
 }
 
-/* The form contains the 9 sections */
+/* The form contains the subject categories. */
 .subject_selection form {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
