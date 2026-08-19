@@ -1,23 +1,20 @@
 # Automated Student Performance Analyzer
 
-A simple Flask web app that analyzes student exam data (CSV or XLSX), calculates total marks and subject-wise toppers, and produces per-subject bar charts. Ideal for teachers or small schools that want a quick dashboard from spreadsheet data.
+A small Flask web app to analyze student exam data (CSV / XLSX), compute per-student total marks, identify subject-wise toppers, and generate per-subject bar charts. The project is intended as a lightweight tool for teachers or small schools to get quick insights from score sheets.
 
-## Stack
-- Language: Python 3
-- Framework: Flask
-- Notable libraries: pandas, numpy, matplotlib, openpyxl
-- Deployable with: gunicorn (requirements.txt included)
-- try this project : https://automated-student-performance-analyzer.onrender.com
+Live demo: https://automated-student-performance-analyzer.onrender.com
 
-## Features
-- Upload student data (.csv or .xlsx) via web form
-- Show uploaded table
-- Compute total marks per student
-- Produce subject-wise topper list
-- Generate and serve bar-chart images for each subject
-- Simple HTML templates for dashboard and results
+Status: Basic working prototype
+- Core features implemented and runnable locally: upload, view table, compute totals, list subject toppers, and generate static PNG charts per subject.
+- No automated tests or CI configured. No authentication or input sanitization.
 
-## Quickstart — run locally
+Tech stack
+- Python 3
+- Flask
+- pandas, numpy, matplotlib, openpyxl
+- Deployable with gunicorn
+
+Quickstart — run locally
 1. Clone the repo and change into it:
 
    git clone https://github.com/govindrkumar/Automated-Student-Performance-Analyzer.git
@@ -26,24 +23,28 @@ A simple Flask web app that analyzes student exam data (CSV or XLSX), calculates
 2. Create a virtual environment and install requirements:
 
    python -m venv venv
-   source venv/bin/activate   # or venv\Scripts\activate on Windows
+   source venv/bin/activate   # on Windows: venv\Scripts\activate
    pip install -r requirements.txt
 
-3. Start the app:
+3. Start the app for development:
 
    python app.py
-   # By default the app runs with debug=True and listens on http://127.0.0.1:5000
 
-4. Open a browser and go to:
+   By default the app runs with debug=True and listens on http://127.0.0.1:5000
+
+4. Open a browser and visit:
 
    http://127.0.0.1:5000/        (home)
    http://127.0.0.1:5000/dashboard  (upload and analysis entry)
 
-Production (example):
+Production example (Gunicorn):
 
    gunicorn --bind 0.0.0.0:8000 app:app
 
-## Routes / Pages
+Docker (optional)
+- There is no Dockerfile in the repo currently. To run in Docker, create a small Dockerfile that installs Python, copies the app, installs requirements, and exposes the port.
+
+Routes / Pages
 - GET / — landing page (templates/index.html)
 - GET /dashboard — upload form (templates/dashboard.html)
 - POST /submit — accepts file upload (CSV or XLSX); saved to uploads/uploaded_data.csv or uploads/uploaded_data.xlsx and shows uploaded table (templates/result.html)
@@ -51,8 +52,8 @@ Production (example):
 - GET /subjecttoppers — shows subject-wise topper list (templates/subject_wise_toppers.html)
 - GET /graphics — generates bar charts per subject and shows performance dashboard (templates/performance_dashboard.html)
 
-## Expected data format
-The app expects the uploaded spreadsheet to include at least the following columns (exact header text is required as used in the code):
+Expected data format
+The app expects the uploaded spreadsheet to include at least the following columns (exact header text as used in the code):
 - Student Name
 - Student ID
 - Physics
@@ -61,63 +62,59 @@ The app expects the uploaded spreadsheet to include at least the following colum
 - Mathematics
 - English
 
-Example CSV header and one row:
+Example CSV header and a sample row:
 
 Student Name,Student ID,Physics,Chemistry,Biology,Mathematics,English
 John Doe,12345,78,85,72,90,88
 
-## Notes about file handling and generated files
-- Uploaded files are saved to the uploads/ directory (uploads/uploaded_data.csv or uploads/uploaded_data.xlsx).
-- Generated graphs are saved under static/graphs/ as PNG files (one per numeric column except Student Name/Student ID).
-- The app creates required directories on startup (uploads and static/graphs) if they don't exist.
+File handling and generated files
+- Uploaded files are saved to the `uploads/` directory (uploads/uploaded_data.csv or uploads/uploaded_data.xlsx).
+- Generated graphs are saved under `static/graphs/` as PNG files (one per numeric subject column).
+- The app creates required directories on startup (uploads and static/graphs) when missing.
 
-## How it works (brief)
-- app.py implements the Flask app and defines:
-  - load_uploaded_data(): loads the saved CSV/XLSX from uploads/
-  - marks_cum_statement(df): sums the five subject columns to build Total Marks
-  - subject_wise_toppers(df): for each subject finds the max and returns rows for highest scorers
-  - graphical_representation(): iterates columns and creates bar-charts using matplotlib, saves images to static/graphs
-- Templates render HTML tables returned by pandas.DataFrame.to_html() and show links to other views.
+How it works (brief)
+- `app.py` contains the Flask app and analysis logic including:
+  - `load_uploaded_data()` — loads the saved CSV/XLSX from `uploads/`
+  - `marks_cum_statement(df)` — sums configured subject columns to build `Total Marks`
+  - `subject_wise_toppers(df)` — finds highest scorer(s) per subject
+  - `graphical_representation()` — creates bar charts with matplotlib and saves PNGs to `static/graphs/`
+- Templates render HTML tables from `pandas.DataFrame.to_html()` and link to analysis views.
 
-## Repository layout (top-level)
+Current limitations and risks
+- Strict column names: the code expects specific headers and will raise KeyError for different headers.
+- No input validation: non-numeric values, negative marks, missing cells, or malformed sheets may cause errors.
+- Single active dataset: each upload overwrites `uploads/uploaded_data.*` — no versioning or history.
+- Server-side file writes: graphs are written to disk which is not ideal for stateless platforms unless using ephemeral storage.
+- No authentication or rate-limiting — do not expose to public without adding access controls.
+- No unit tests or CI. Consider adding tests for the analysis functions.
+
+Suggested improvements (prioritized)
+1. Add validation for uploaded sheets (required columns, numeric marks, valid ranges).
+2. Make the subject list configurable (detect numeric columns or allow user selection on upload).
+3. Add unit tests for `marks_cum_statement` and `subject_wise_toppers` and configure CI (GitHub Actions).
+4. Support multiple datasets (per-upload history) instead of a single file overwrite.
+5. Serve graphs in-memory (Flask send_file with BytesIO) to avoid writing to disk for stateless deployments.
+6. Add input sanitization, file size limits, and basic auth for deployments.
+7. Improve front-end and add client-side interactivity (plotly/dash or embedding base64 images).
+
+Contributing
+- Contributions welcome. Helpful first PRs:
+  - Add tests covering analysis logic
+  - Improve validation and error handling in `submit()`
+  - Make subject list configurable and/or auto-detected
+  - Add a Dockerfile and GitHub Actions workflow
+
+Repository layout (top-level)
 ```
 app.py                 # Flask app and analysis logic
 requirements.txt       # Python dependencies
 templates/             # HTML views used by the app
-  index.html
-  dashboard.html
-  result.html
-  final_dashboard.html
-  performance_dashboard.html
-  subject_wise_toppers.html
 static/                # static assets (CSS, images, graphs/)
   graphs/              # generated graph PNGs
 uploads/               # uploaded spreadsheets are stored here
-data/                  # contains data.sql (empty)
 LICENSE                # project license file
-README.md              # (this is where this content goes)
+README.md              # (this file)
 ```
 
-## Limitations & gotchas
-- The app expects the specific column names shown above; missing or differently-named columns will cause KeyError or incorrect results.
-- No authentication — do not expose to public without adding access controls.
-- No large-file protections or input validation (e.g., negative marks, non-numeric cells). Consider adding validation and better error messages.
-- For multiple uploads in quick succession the app overwrites previous uploaded_data.* files (only one active dataset at a time).
-- The front-end is minimal. Charts are created server-side and saved; adding caching or interactive plotting would be an enhancement.
-
-## Suggested improvements
-- Validate uploaded sheets (required columns, numeric marks).
-- Allow selecting which columns are subjects dynamically.
-- Support multiple datasets and per-upload history.
-- Add tests and CI (unit tests for analysis functions).
-- Serve graphs without writing to disk (in-memory) for stateless deployments.
-- Add input sanitization and file size limits.
-
-## Contributing
-- Feel free to open issues or PRs. Key places to start:
-  - add tests for marks_cum_statement and subject_wise_toppers
-  - improve validation and error handling in submit()
-  - make the subject list configurable (instead of hard-coded in app.py)
-
-## License
+License
 - See LICENSE file in the repository.
