@@ -60,11 +60,13 @@ def dashboard():
 # FILE UPLOAD
 # --------------------------------------------------
 
+df = 0
 @app.route("/submit", methods=["POST"])
 def submit():
 
     file_type = request.form["file_type"]
     file = request.files["myfile"]
+    global df 
 
     # Make sure a file was selected
     if file.filename == "":
@@ -122,14 +124,9 @@ def submit():
 # --------------------------------------------------
 
 def marks_cum_statement(df):
+    col = ['Student ID', 'Student Name']
 
-    subjects = [
-        "Physics",
-        "Chemistry",
-        "Biology",
-        "Mathematics",
-        "English"
-    ]
+    subjects = [x for x in df.columns if x not in col]
 
     return df[subjects].sum(axis=1)
 
@@ -139,14 +136,13 @@ def marks_cum_statement(df):
 # --------------------------------------------------
 
 def subject_wise_toppers(df):
+    global selected_subject
+    col = ['Student ID', 'Student Name']
+    
 
-    subjects = [
-        "Physics",
-        "Chemistry",
-        "Biology",
-        "Mathematics",
-        "English"
-    ]
+    subjects = [x for x in df.columns if x not in col]
+    
+
 
     topper_data = []
 
@@ -486,7 +482,8 @@ def subject_selection():
     global selected_subject
     # Keep only the subjects selected by the user.
     selected_subject = request.form.getlist('selected_items')
-    my_dict = {'Student Name': []}
+    my_dict = {'Student ID':[],
+               'Student Name': []}
     for key in selected_subject: #added keys now
         my_dict[key] = []
     return redirect('/student_data')
@@ -505,11 +502,14 @@ def student_data():
 def collect_data():
 
     global my_dict
+    my_dict["Student ID"] = []
 
-    # Read each table cell and place it into a column-based dictionary.
+    # Read each table cell and place it into a column-based dictionary
+
     my_dict['Student Name'] = []
 
     for i in range(student_no):
+        my_dict["Student ID"].append(request.form[f'student_id_{i}'])
 
         my_dict['Student Name'].append(
             request.form[f'name_{i}']
