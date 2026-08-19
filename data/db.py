@@ -13,4 +13,14 @@ connection = pymysql.connect(
     ssl={"ssl": {}}
 )
 
+cursor = connection.cursor()
+
+cursor.execute("SELECT VERSION()")
+
+version = cursor.fetchone()
+
 print("MySQL connected!")
+print("MySQL version:", version[0])
+
+cursor.close()
+connection.close()
