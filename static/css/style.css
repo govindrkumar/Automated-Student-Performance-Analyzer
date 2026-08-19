@@ -92,27 +92,29 @@ body {
 .normality {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin: 0 auto;
+    margin: 20px auto;
+    box-shadow: solid black;
 }
 
 .normality a {
-    display: block;
-    padding: 15px 30px;
-    background-color: #333;
+    width: fit-content;
+    padding: 12px 24px;
+    background: #333;
     color: white;
     text-decoration: none;
     border-radius: 8px;
-    font-size: 1.2rem;
+
+    font-size: 1rem;
     font-weight: bold;
     text-align: center;
+
+    transition: 0.2s ease;
 }
 
 .normality a:hover {
-    background-color: #555;
-    transform: scale(1.05);
+    background: #555;
+    transform: translateY(-2px);
 }
-
 /* Center the topper table and its heading. */
 .table_of_toppers{
     display: flex;

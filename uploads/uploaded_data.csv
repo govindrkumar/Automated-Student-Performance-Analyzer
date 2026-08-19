@@ -1,3 +1,4 @@
-Student ID,Student Name,English,Physics,Chemistry,Biology,Informatics Practices,Hindustani Classical Music
-STU01,Govind Kumar ,91,72,88,85,96,94
-STU02,Roshni Singh,93,58,78,82,0,92
+Student ID,Student Name,English,Hindi,Physics,Chemistry,Biology
+STU01,Govind Kumar,85,64,83,99,28
+STU02,Roshni Singh,98,39,23,35,52
+STU03,Michael Jordan,73,94,58,83,89

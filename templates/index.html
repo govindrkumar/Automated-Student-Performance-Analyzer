@@ -18,8 +18,19 @@
         
 
         <!--This is my start of comments-->
+        <style>
+            .container h2{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: brown;
+                font-family: cursive;
+                font-weight: bold;
+            }
+        </style>
 
 <div class="container">
+    <h2>Create CSV file & Analyse Result </h2>
             <div class="form-container">
                 <!-- Start the manual-entry workflow with row counts. -->
                 <form action="/result_calc" method="post">
@@ -41,7 +52,10 @@
 
             <!-- Link to the spreadsheet upload workflow. -->
             <div class="normality">
-                <a href="{{ url_for('dashboard') }}"><h2>Already Have Student Marks ?</h2></a>
+                <a href="{{ url_for('dashboard') }}">Upload Existing Student Marks<br>
+                    Click to upload .csv or .xlsx
+                </a><br>
+                
             </div>
     </body>
 </html>
