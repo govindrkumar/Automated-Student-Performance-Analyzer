@@ -467,10 +467,14 @@ def result_calc():
                             my_list9 = subjects9
                             )
 
+
 @app.route('/subject_selection', methods = ['POST'])
 def subject_selection():
     selected = request.form.getlist('selected_items')
-    return f"Selected items: {selected}"
+    my_dict = {'Name': []}
+    for key in selected: #added keys now
+        my_dict[key] = []
+    return my_dict
 
 
 
