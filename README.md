@@ -82,7 +82,7 @@ The project expects the great `Homo Sapiens` to follow specific file format :
 
 Note : Make sure you don't put your DOB, Father's Name or any extra detail against this format. Okay ? Am I clear ?
 
-<img width="698" height="757" alt="quickshot_260820_121425" src="https://github.com/user-attachments/assets/71d716a3-63a4-48f9-87f4-be96db472c73" />
+<img width="706" height="764" alt="quickshot_260820_105749" src="https://github.com/user-attachments/assets/1ddd0604-e005-4e0d-a032-adabd63a77fc" />
 
 i. Click on Upload Existing students marks button.
 ii. Now, choose your file format. ( `.csv` or `.xlsx` supported)
