@@ -1,36 +1,20 @@
 # Automated Student Performance Analyzer
 
-A small Flask web app to analyze student exam data (CSV / XLSX), compute per-student total marks, identify subject-wise toppers, and generate per-subject bar charts.
-
-The project is intended as a lightweight tool for teachers or small schools to get quick insights from student score sheets.
-
-**Live Demo:** https://automated-student-performance-analyzer.onrender.com
-
-## Status
-
-**Basic working prototype**
-
-Core features implemented:
-
-- Upload CSV / XLSX files
-- View uploaded student data
-- Calculate total marks for each student
-- Find subject-wise toppers
-- Generate subject-wise performance graphs
-
-No automated tests or CI are currently configured. The application also does not include authentication or advanced input sanitization.
+**It's a simple flask app made for teachers for following purpose :**
+- Know total marks
+- Know subject-wise toppers
+- Compare performance of students in each subject among their classmate / peers.
 
 ## Tech Stack
 
-- Python 3
+- Python 3.13.0
 - Flask
 - Pandas
-- NumPy
 - Matplotlib
 - OpenPyXL
-- Gunicorn
+- HTML5 / CSS
 
-## Quickstart — Run Locally
+## How to run it locally on your system ?
 
 ### 1. Clone the repository
 
@@ -39,194 +23,136 @@ git clone https://github.com/govindrkumar/Automated-Student-Performance-Analyzer
 cd Automated-Student-Performance-Analyzer
 ````
 
-### 2. Create a virtual environment and install requirements
-
-```bash
-python -m venv venv
-source venv/bin/activate
-```
-
-On Windows:
-
-```bash
-venv\Scripts\activate
-```
-
-Then install the dependencies:
-
+### 2. Install Requirements
 ```bash
 pip install -r requirements.txt
-```
+````
 
-### 3. Start the application
+### 3. Run it
+````bash
+python3 app.py
+````
 
-```bash
-python app.py
-```
+## Project Architecture 
+(Credit : Google Slide)
 
-By default, the application runs on:
+<img width="1350" height="900" alt="ChatGPT Image Aug 19, 2026, 09_10_46 PM" src="https://github.com/user-attachments/assets/7d399f3f-840d-4408-bc06-8033536abe45" />
 
-```text
-http://127.0.0.1:5000
-```
 
-### 4. Open the application
+## How my project Works ?
+So, as it can be seen from above architecture diagram that it follows two system :
 
-Home page:
+**i. Manual Entry**
 
-```text
-http://127.0.0.1:5000/
-```
+**ii. Automatic Analysis**
 
-Dashboard:
+So, let's start :
+### 1. Manual Entry
 
-```text
-http://127.0.0.1:5000/dashboard
-```
+- So, it starts with you entering the no. of subject and no. of students on my page. (`index.html`)
 
-## Production Example
+<img width="698" height="757" alt="quickshot_260820_121425" src="https://github.com/user-attachments/assets/71d716a3-63a4-48f9-87f4-be96db472c73" />
 
-The application can also be run using Gunicorn:
+- When you click `submit` button the result is sent to backend in `/result_calc` route.
+- Here, I turn the submitted input in int format.
+- Afterwards, I send you to `subject_selection.html` to collect the data of what subjects you are going to evaluate. (Contains 150 subjects in 8 different field) (Credit : Google Gemini for providing me list of 150 subjects.)
 
-```bash
-gunicorn --bind 0.0.0.0:8000 app:app
-```
+- <img width="1741" height="916" alt="quickshot_260820_122743" src="https://github.com/user-attachments/assets/d81d873d-7131-412b-a19c-f2eebbedc3c5" />
 
-## Docker
 
-There is currently no Dockerfile in the repository.
+- You scroll down and click submit.
+- I collect your returned input in my global `selected_subject` list using `request.form.getlist()` function which is looped to make keys in `my_dict`.
+- Then, it is redirect to `/student_data`.
+- `student_data_pushed.html` uses Jinga2 to make a loop and fill the values.
 
-If Docker support is needed, a Dockerfile can be added to install Python, copy the application, install the requirements, and expose the required port.
+  <img width="1428" height="454" alt="quickshot_260820_123545" src="https://github.com/user-attachments/assets/adf012e7-208f-41e5-80b9-da17c8ecb343" />
 
-## Routes / Pages
+- From now on, `Pandas DataFrame` will be used.
+- Your data is saved in `uploaded_data.csv` format on `result.html` page.
 
-| Route             | Method | Description                                             |
-| ----------------- | ------ | ------------------------------------------------------- |
-| `/`               | GET    | Landing page                                            |
-| `/dashboard`      | GET    | Upload and analysis entry page                          |
-| `/submit`         | POST   | Accepts CSV/XLSX uploads and displays the uploaded data |
-| `/analyse`        | GET    | Calculates total marks and displays the analysis        |
-| `/subjecttoppers` | GET    | Displays subject-wise toppers                           |
-| `/graphics`       | GET    | Generates and displays subject-wise performance graphs  |
+  <img width="804" height="534" alt="quickshot_260820_123936" src="https://github.com/user-attachments/assets/dbbea547-02c3-4558-8c4c-0e97cd858024" />
 
-## Expected Data Format
+### 2. Automatic Upload
+Before you get excited 🥳 , let me tell you one thing. The project has a hard limitation which you will need to follow to properly use it. 
+The project expects the great `Homo Sapiens` to follow specific file format :
 
-The uploaded spreadsheet should contain the following columns:
+- Student ID
+- Student Name
+- (Your list of subjects)
 
-* Student Name
-* Student ID
-* Physics
-* Chemistry
-* Biology
-* Mathematics
-* English
+Note : Make sure you don't put your DOB, Father's Name or any extra detail against this format. Okay ? Am I clear ?
 
-### Example CSV
+<img width="698" height="757" alt="quickshot_260820_121425" src="https://github.com/user-attachments/assets/71d716a3-63a4-48f9-87f4-be96db472c73" />
 
-```csv
-Student Name,Student ID,Physics,Chemistry,Biology,Mathematics,English
-John Doe,12345,78,85,72,90,88
-```
+i. Click on Upload Existing students marks button.
+ii. Now, choose your file format. ( `.csv` or `.xlsx` supported)
 
-## File Handling
+<img width="693" height="567" alt="quickshot_260820_124605" src="https://github.com/user-attachments/assets/8b9b7720-37a0-45e2-b76d-06fc37ac92fa" />
 
-Uploaded files are stored in the `uploads/` directory.
 
-Examples:
+- Click on submit. Now, when you press `Submit` where, I take it in my backroom 💀.
+- Highly classified operation 🕵️‍♀️ of converting and saving it `df` variable is conducted inside it. (I already told you before.)
+- On `result.html`
 
-```text
-uploads/uploaded_data.csv
-uploads/uploaded_data.xlsx
-```
+  <img width="741" height="815" alt="quickshot_260820_125230" src="https://github.com/user-attachments/assets/b93fa053-2dea-4427-ad01-c73fdf417fa4" />
 
-Generated graphs are stored in:
 
-```text
-static/graphs/
-```
+## Hah, So, both ways are completed. 
+Thank you for your patience gentleman. 😚 
 
-The application automatically creates the required directories when they do not exist.
+<img width="480" height="422" alt="Cinema Cat Reaction GIF" src="https://github.com/user-attachments/assets/e5c1114f-a1ad-4588-b48b-a8f976a04fe8" />
 
-## How It Works
+So, you! Yes, I am talking to you. 
+Did you find anything common point in both ways ? Or, your **attention span** made you scroll the cool part.
+Let me show you. 
+See, these three warriors ? 👑
 
-The main application logic is contained in `app.py`.
 
-Important functions include:
+<img width="548" height="168" alt="quickshot_260820_125950" src="https://github.com/user-attachments/assets/2c356662-3620-41f8-adde-fd3cb5fcf9d2" />
 
-### `load_uploaded_data()`
+## Let's talk now :
+### i. Analyse Results
 
-Loads the uploaded CSV or XLSX file from the `uploads/` directory.
+-It's to know total marks of each student in one go. No, excel required. Yeah, seriously. 
 
-### `marks_cum_statement(df)`
+<img width="1112" height="894" alt="quickshot_260820_130531" src="https://github.com/user-attachments/assets/ed464fd1-7dea-4ac2-9fda-e0722a01f73e" />
 
-Calculates the total marks for each student using the configured subject columns.
 
-### `subject_wise_toppers(df)`
+**Tech Details for Nerdy Readers :**
+- This part uses `marks_cum_statement` function and sends it to `/analyse` which will display result on `final_dashboard.html`. (was it final ? No, you dork!)
+- It says 'Hey Fella! If my file has anything other than `Student Name` or `Student ID` just add it using `df.sum(axis = 1)` (row-wise) and tell our total gang number. 💰🥷'
 
-Finds the highest-scoring student(s) in each subject.
+### ii. Subject-Wise Topper List
 
-### `graphical_representation()`
+- It's know subject wise topper in your class. Who is performing in which subject and recognise their value in class. 🥺 (Not one single topper. )
 
-Creates subject-wise bar charts using Matplotlib and saves them as PNG files.
+  <img width="679" height="460" alt="quickshot_260820_131553" src="https://github.com/user-attachments/assets/1cd1966c-e023-4405-b17d-cf76ad538eaa" />
 
-The Flask templates display the processed data and analysis results.
+**Study time :**
+- It uses `subject_wise_toppers` function, uses loop to know which one is subject (Just, excludes `Student Name & Student ID`. No, biggie!)
+- Then, uses `iterrows` to merge the max marks (created using df.max()), student names, student id and subject name in a for loop.
+- Rendered on `subject_wise_toppers.html`.
 
-## Current Limitations
+### iii. Graphical Representation
 
-* The application expects specific column names.
-* Invalid or missing data may cause errors.
-* Non-numeric marks are not currently validated.
-* Negative marks or values outside the expected range are not validated.
-* Only one active dataset is maintained at a time.
-* A new upload overwrites the previous uploaded dataset.
-* Generated graphs are stored on disk.
-* There is no authentication or rate limiting.
-* No automated tests or CI are currently configured.
+<img width="1799" height="897" alt="quickshot_260820_132643" src="https://github.com/user-attachments/assets/ac3d0eb5-2f9d-421c-99de-816b6fea0d34" />
 
-## Future Improvements
+**Details :**
+- It picks up your df which you prepared.
+- Plots bar graph using matplotlib.pyplot in a for loop of each subject, comparing each student performance in a graph. (A bar graph 😂)
 
-Some possible improvements include:
+Thank you for keeping up with me in this explanation. 
+Hope you liked it!
 
-1. Add validation for uploaded files and required columns.
-2. Validate that marks are numeric and within valid ranges.
-3. Make the subject list configurable.
-4. Add automated tests for the analysis functions.
-5. Support multiple datasets instead of overwriting the previous upload.
-6. Improve file handling for stateless deployments.
-7. Add file size limits and better input sanitization.
-8. Improve the front-end and add interactive visualizations.
+<img width="480" height="480" alt="Cat Meme GIF" src="https://github.com/user-attachments/assets/5940b5dd-d135-4775-a421-0065d20ad465" />
 
-## Contributing
 
-Contributions are welcome!
 
-Some useful areas for contribution:
-
-* Adding tests for the analysis logic
-* Improving validation and error handling
-* Making the subject list configurable
-* Improving the user interface
-* Adding Docker support
-* Adding GitHub Actions / CI
-
-## Repository Structure
-
-```text
-Automated-Student-Performance-Analyzer/
-│
-├── app.py
-├── requirements.txt
-├── templates/
-│   └── HTML templates
-├── static/
-│   ├── CSS and other static assets
-│   └── graphs/
-├── uploads/
-├── LICENSE
-└── README.md
-```
+## Contribution
+No one helps single man 🥺😢😭
+Commit a PR and help me out grow features in this project. 
 
 ## License
-
 See the `LICENSE` file for license information.
+
 
